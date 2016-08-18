@@ -5,9 +5,9 @@ import java.util.List;
 
 public class CodingExercise4 {
 
-	public List<String> process(List<String> input) {
-
-	}
+//	public List<String> process(List<String> input) {
+//
+//	}
 
 	private Integer getUnorderness(char[] sequence) {
 		Integer unorderness = 0;
