@@ -80,6 +80,13 @@ public class ArraysStrings {
 		return s.toString();
 	}
 	
+	//Write a method to decide if two strings are anagrams or not.
+	public static boolean isAnagram(String s1, String s2) {
+		boolean ret = false;		
+		
+		return ret;
+	}
+	
 	public static void main(String[] args) {
 		// Character[] s1 = { 'a', 's', 's', 'a' };
 		// Character[] s2 = { 'a', 's', '1', '2' };
