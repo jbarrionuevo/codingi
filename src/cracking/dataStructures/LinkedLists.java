@@ -133,6 +133,7 @@ public class LinkedLists {
 	// EXAMPLE
 	// input: A -> B -> C -> D -> E -> C [the same C as earlier]
 	// output: C
+	// 2.5
 	public static Node getFirstNodeInCircularLinkedList(Node n1) {
 		Node list = n1;
 
@@ -156,6 +157,25 @@ public class LinkedLists {
 			list = list.next;
 		}
 		return foundEarlier;
+	}
+
+	// method provided in book (adapted to Java version)
+	public static Node deleteNode(Node head, int d) {
+		Node n = head;
+		Node ret = null;
+
+		if (n.data == d) {
+			ret = head.next; /* moved head */
+		} else {
+			while (n.next != null) {
+				if (n.next.data == d) {
+					n.next = n.next.next;
+					ret = head; /* head didn’t change */
+				}
+				n = n.next;
+			}
+		}
+		return ret;
 	}
 
 	public static void main(String[] args) {
@@ -232,17 +252,17 @@ public class LinkedLists {
 
 		// List<Integer> l1 = digits(4590);
 		// System.out.println(l1.toString());
-		//System.out.println(listToInt(n1));
+		// System.out.println(listToInt(n1));
 
 		// Input: (3 -> 1 -> 5) + (5 -> 9 -> 2)
-//		Node n8 = listSum(n1, n4);
-//		while (n1 != null) {
-//			System.out.println("***** " + n1.data);
-//			n1 = n1.next;
-//		}
-		
+		// Node n8 = listSum(n1, n4);
+		// while (n1 != null) {
+		// System.out.println("***** " + n1.data);
+		// n1 = n1.next;
+		// }
+
 		System.out.println("n1.data = " + getFirstNodeInCircularLinkedList(n1).data);
-		
+
 	}
 }
 
