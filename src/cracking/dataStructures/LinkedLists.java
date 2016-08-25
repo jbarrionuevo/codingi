@@ -68,11 +68,56 @@ public class LinkedLists {
 		Node prev = node;
 		while (node.next.next != null) {
 			node.data = node.next.data;
-			// node.next = node.next.next;
 			prev = node;
 			node = node.next;
 		}
 		prev.next = null;
+	}
+	
+	//2.4
+	//You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in reverse order,
+	//such that the 1’s digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
+	//EXAMPLE
+	//Input: (3 -> 1 -> 5) + (5 -> 9 -> 2)
+	//Output: 8 -> 0 -> 8
+	public static Node listSum(Node n1, Node n2){
+		int a = listToInt(n1);
+		int b = listToInt(n2);
+		
+		return intToList(a+b);
+	}
+	
+	public static int listToInt(Node n1){
+		int i = 1;
+		int count = 0;
+		while(n1!=null){
+			count = n1.data * i + count;
+			i = i * 10;
+			n1=n1.next;
+		}
+		return count;
+	}
+	
+	public static Node intToList(int i1){
+		Node node = new Node(i1%10);
+		i1 = i1 / 10;
+		while(i1>0){
+			node.appendToTail(i1%10);
+			i1 = i1 / 10;
+			System.out.println("i1= " + i1);
+		}
+		return node;
+	}
+	
+	public static List<Integer> digits(int i) {
+	    List<Integer> digits = new ArrayList<Integer>();
+	    while(i > 0) {
+	        System.out.println("i % 10 = " + i % 10);
+	    	digits.add(i % 10);
+	    	System.out.println("i / 10 = " + i / 10);
+	        i /= 10;
+	    }
+	    return digits;
 	}
 	
 	public static void main(String[] args) {
@@ -121,29 +166,41 @@ public class LinkedLists {
 
 		//System.out.println("Nth to last: " + findNthToLastElement(n, 3));
 		
-		Node n1 = new Node(1);
-		Node n2 = new Node(2);
-		Node n3 = new Node(3);
-		Node n4 = new Node(4);
-		Node n5 = new Node(5);
-		Node n6 = new Node(6);
-		Node n7 = new Node(7);
-		
+		Node n1 = new Node(3);
+		Node n2 = new Node(1);
+		Node n3 = new Node(5); 
+		Node n4 = new Node(5);
+		Node n5 = new Node(9);
+		Node n6 = new Node(2);;
+//		Node n7 = new Node(7);
+//		
 		n1.next=n2;
 		n2.next=n3;
-		n3.next=n4;
+		n3.next=null;
 		n4.next=n5;
 		n5.next=n6;
-		n6.next=n7;
-		n7.next=null;
+		n6.next=null;
+//		n7.next=null;
+//		
+//		deleteMidNode(n4);
+//		
+//		Node n = n1;
+//		
+//		while (n != null) {
+//		System.out.println("***** " + n.data);
+//		n = n.next;
+//		}
 		
-		deleteMidNode(n4);
+//		List<Integer> l1 = digits(4590);
+//		System.out.println(l1.toString());
+		System.out.println(listToInt(n1));
 		
-		Node n = n1;
 		
-		while (n != null) {
-		System.out.println("***** " + n.data);
-		n = n.next;
+		//Input: (3 -> 1 -> 5) + (5 -> 9 -> 2)
+		Node n8 = listSum(n1,n4);
+		while (n8 != null) {
+		System.out.println("***** " + n8.data);
+		n8 = n8.next;
 		}
 	}
 }
