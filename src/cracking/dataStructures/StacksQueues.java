@@ -1,5 +1,8 @@
 package cracking.dataStructures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StacksQueues {
 
 	public static Object[] threeStacks;
@@ -19,7 +22,7 @@ public class StacksQueues {
 		System.out.println("************************************************");
 	}
 
-	// Describe how you could use a single array to implement three stacks.
+	// 3.1 Describe how you could use a single array to implement three stacks.
 	public static void pushThreeStacksInArray(int stackId, Object item) {
 		boolean found = false;
 
@@ -50,9 +53,116 @@ public class StacksQueues {
 		return ret;
 	}
 
-	// public static Object popThreeStacksInArray(){
-	//
-	// }
+	// 3.3
+	// TODO
+	// Imagine a (literal) stack of plates. If the stack gets too high, it might
+	// topple. Therefore, in real life, we would likely start
+	// a new stack when the previous stack exceeds some threshold. Implement a
+	// data structure SetOfStacks that mimics this. SetOfStacks
+	// should be composed of several stacks, and should create a new stack once
+	// the previous one exceeds capacity. SetOfStacks.push() and
+	// SetOfStacks.pop() should behave identically to a single stack (that is,
+	// pop() should return the same values as it would if there were
+	// just a single stack).
+	// FOLLOW UP
+	// Implement a function popAt(int index) which performs a pop operation on a
+	// specific sub-stack.
+
+	public class SetOfStacks {
+		// NodeOfStack top;
+		int stackThreshold;
+		List<NodeOfStack> stacks;
+
+		SetOfStacks(int stackThresholdO) {
+			stackThreshold = stackThresholdO;
+			stacks = new ArrayList<NodeOfStack>();
+		}
+
+		public Object pop() {
+			int stackId = getActiveStack();
+			try {
+				if (stacks.get(stackId) != null) {
+					NodeOfStack tempNode = stacks.get(stackId);
+					if (tempNode.getOrder() > 1 && tempNode.getOrder() <= stackThreshold) {
+
+						NodeOfStack nodeTemp1 = (NodeOfStack) tempNode.getNextNode();
+						tempNode.next=null;											
+						stacks.set(stackId, nodeTemp1);
+					}
+
+					else if(tempNode.getOrder() == 1){
+						stacks.remove(tempNode);
+					}
+
+					return tempNode;
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("******************Exception captured" + e.getMessage());
+			}
+			
+			return null;
+		}
+
+		public Object peek() {
+			int stackId = getActiveStack();
+			if (stacks.get(stackId) != null) {
+				Object node = stacks.get(stackId);
+				return node;
+			}
+			return null;
+		}
+
+		void push(Object item) {
+			int stackId = getActiveStack();
+
+			// adding a node to the stack, if the stack is not full
+			if (stacks.size() != 0 && stacks.get(stackId) != null && stacks.get(stackId).getOrder() < stackThreshold) {
+				NodeOfStack nodeTemp = stacks.get(stackId);
+				NodeOfStack nodeTemp1 = new NodeOfStack(item, nodeTemp.getOrder() + 1);
+				nodeTemp1.append(nodeTemp);
+				stacks.set(stackId, nodeTemp1);
+			}
+			// creating a new stack and node
+			else {
+				NodeOfStack nodeTemp2 = new NodeOfStack(item, 1);
+				stacks.add(nodeTemp2);
+			}
+		}
+
+		public int getActiveStack() {
+			int ret = 0;
+			int i = 0;
+			while (i < stacks.size()) {
+				if (stacks.get(i) != null) {
+					NodeOfStack tempNodeOfStack = stacks.get(i);
+					// the following conditions are not necessary
+					if (tempNodeOfStack != null && tempNodeOfStack.getOrder() > 0
+							&& tempNodeOfStack.getOrder() <= stackThreshold) {
+						ret = i;
+					}
+				}
+				i++;
+			}
+			return ret;
+		}
+
+		public void popAt(int index) {
+
+		}
+
+		public String toString() {
+
+			for (int i = 0; i < stacks.size(); i++) {
+				System.out.println("**** Stack printed: " + i);
+				NodeOfStack n = stacks.get(i);
+				String item = (String) n.getItem();
+				System.out.println("******** Top Node: " + item);
+			}
+
+			return null;
+		}
+	}
 
 	public static void main(String[] args) {
 		// Stack pila = new Stack();
@@ -75,30 +185,52 @@ public class StacksQueues {
 		// o = pila.pop();
 		// }
 
+		// StacksQueues stacksQueues = new StacksQueues();
+		// stacksQueues.initializeStacks(24);
+		// pushThreeStacksInArray(0, "hola");
+		// pushThreeStacksInArray(0, "chau");
+		// pushThreeStacksInArray(0, 3);
+		// pushThreeStacksInArray(1, "hello");
+		// pushThreeStacksInArray(1, "bye");
+		// pushThreeStacksInArray(1, "tres");
+		// pushThreeStacksInArray(2, "ciao");
+		// pushThreeStacksInArray(2, "arrivederchi");
+		// pushThreeStacksInArray(2, "tritri");
+		//
+		// printThreStacks();
+		//
+		// popThreeStacksInArray(0);
+		// popThreeStacksInArray(0);
+		// popThreeStacksInArray(0);
+		// popThreeStacksInArray(1);
+		// popThreeStacksInArray(1);
+		// popThreeStacksInArray(1);
+		// popThreeStacksInArray(2);
+		// popThreeStacksInArray(2);
+		//
+		// printThreStacks();
+
 		StacksQueues stacksQueues = new StacksQueues();
-		stacksQueues.initializeStacks(24);
-		pushThreeStacksInArray(0, "hola");
-		pushThreeStacksInArray(0, "chau");
-		pushThreeStacksInArray(0, 3);
-		pushThreeStacksInArray(1, "hello");
-		pushThreeStacksInArray(1, "bye");
-		pushThreeStacksInArray(1, "tres");
-		pushThreeStacksInArray(2, "ciao");
-		pushThreeStacksInArray(2, "arrivederchi");
-		pushThreeStacksInArray(2, "tritri");
+		SetOfStacks setOfStacks = stacksQueues.new SetOfStacks(2);
 
-		printThreStacks();
+		setOfStacks.push(new String("perro"));
+		setOfStacks.push(new String("gato"));
+		setOfStacks.push(new String("canario"));
+		setOfStacks.push(new String("rinoceronte"));
+		setOfStacks.push(new String("hipopotamo"));
 
-		popThreeStacksInArray(0);
-		popThreeStacksInArray(0);
-		popThreeStacksInArray(0);
-		popThreeStacksInArray(1);
-		popThreeStacksInArray(1);
-		popThreeStacksInArray(1);
-		popThreeStacksInArray(2);
-		popThreeStacksInArray(2);
-		
-		printThreStacks();
+		setOfStacks.toString();
+
+		System.out.println("--------------------------------------------------------------------------------------");
+
+		setOfStacks.pop();
+		setOfStacks.pop();
+		setOfStacks.pop();
+		setOfStacks.pop();
+		setOfStacks.pop();
+		setOfStacks.pop();
+
+		setOfStacks.toString();
 	}
 
 }
@@ -126,7 +258,12 @@ public class StacksQueues {
 // }
 // }
 
-class Stack {
+// 3.2 How would you design a stack which, in addition to push and pop, also has
+// a function min which returns the minimum element?
+// Push, pop and min should all operate in O(1) time.
+// TODO
+
+class StackMin {
 	Node1 top;
 
 	public Object pop() {
@@ -145,6 +282,34 @@ class Stack {
 	}
 }
 
+class Stack {
+	Node1 top;
+
+	public Object pop() {
+		if (top != null) {
+			Object item = top.data;
+			top = top.next;
+			return item;
+		}
+		return null;
+	}
+
+	void push(Object item) {
+		Node1 t = new Node1(item);
+		t.next = top;
+		top = t;
+	}
+
+	// added by Jorge
+	public Object peek() {
+		if (top != null) {
+			Object item = top.data;
+			return item;
+		}
+		return null;
+	}
+}
+
 class Node1 {
 	Node1 next = null;
 	Object data;
@@ -160,5 +325,42 @@ class Node1 {
 			n = n.next;
 		}
 		n.next = end;
+	}
+}
+
+class NodeOfStack {
+	NodeOfStack next = null;
+	Object item;
+	int order;
+
+	public NodeOfStack(Object itemO, int orderO) {
+		item = itemO;
+		order = orderO;
+	}
+
+	void append(NodeOfStack nextNode) {
+		this.next = nextNode;
+	}
+
+	public int increaseOrder() {
+		order++;
+		return order;
+	}
+
+	public int decreaseOrder() {
+		order--;
+		return order;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public Object getItem() {
+		return item;
+	}
+
+	public NodeOfStack getNextNode() {
+		return next;
 	}
 }
