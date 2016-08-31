@@ -3,6 +3,8 @@ package cracking.dataStructures;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Tuple;
+
 public class StacksQueues {
 
 	public static Object[] threeStacks;
@@ -86,11 +88,11 @@ public class StacksQueues {
 					if (tempNode.getOrder() > 1 && tempNode.getOrder() <= stackThreshold) {
 
 						NodeOfStack nodeTemp1 = (NodeOfStack) tempNode.getNextNode();
-						tempNode.next=null;											
+						tempNode.next = null;
 						stacks.set(stackId, nodeTemp1);
 					}
 
-					else if(tempNode.getOrder() == 1){
+					else if (tempNode.getOrder() == 1) {
 						stacks.remove(tempNode);
 					}
 
@@ -100,7 +102,7 @@ public class StacksQueues {
 				// TODO: handle exception
 				System.out.println("******************Exception captured" + e.getMessage());
 			}
-			
+
 			return null;
 		}
 
@@ -147,8 +149,37 @@ public class StacksQueues {
 			return ret;
 		}
 
-		public void popAt(int index) {
+		public Object popAt(int index) {
+			Tuple<Integer, Integer> t = mapToStackAndOrder(stackThreshold, index);
+			int stackId = t.x;
+			int order = t.y;
 
+			try {
+				if (stacks.get(stackId) != null) {
+					NodeOfStack prevNode = null;
+					NodeOfStack tempNode = stacks.get(stackId);
+					boolean found = false;
+					while (found == false) {
+						if (tempNode.getOrder() == order) {
+							found = true;
+							if (prevNode != null) {
+								prevNode.next = tempNode.next;
+							}
+							tempNode.next = null;
+							stacks.remove(tempNode);
+						} else {
+							prevNode = tempNode;
+							tempNode = tempNode.next;
+						}
+					}
+					return tempNode;
+
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("******************Exception captured" + e.getMessage());
+			}
+			return null;
 		}
 
 		public String toString() {
@@ -158,10 +189,24 @@ public class StacksQueues {
 				NodeOfStack n = stacks.get(i);
 				String item = (String) n.getItem();
 				System.out.println("******** Top Node: " + item);
+				System.out.println("******** Order of node: " + n.getOrder());
 			}
 
 			return null;
 		}
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Tuple<Integer, Integer> mapToStackAndOrder(int stackThreshold, int absoluteIndex) {
+		double stackThresholdD = stackThreshold;
+		double absoluteIndexD = absoluteIndex;
+		double stackId = Math.ceil(absoluteIndexD / stackThresholdD);
+		double order = Math.abs(absoluteIndex - (stackId - 1) * stackThreshold);
+		Double stackIdD = stackId;
+		Double orderD = order;
+
+		return new Tuple<Integer, Integer>(stackIdD.intValue(), orderD.intValue());
 	}
 
 	public static void main(String[] args) {
@@ -219,18 +264,64 @@ public class StacksQueues {
 		setOfStacks.push(new String("rinoceronte"));
 		setOfStacks.push(new String("hipopotamo"));
 
+		setOfStacks.popAt(3);
+
 		setOfStacks.toString();
 
 		System.out.println("--------------------------------------------------------------------------------------");
 
-		setOfStacks.pop();
-		setOfStacks.pop();
-		setOfStacks.pop();
-		setOfStacks.pop();
-		setOfStacks.pop();
-		setOfStacks.pop();
+		// setOfStacks.pop();
+		// setOfStacks.pop();
+		// setOfStacks.pop();
+		// setOfStacks.pop();
+		// setOfStacks.pop();
+		// setOfStacks.pop();
 
 		setOfStacks.toString();
+
+		// System.out.println("***************************************************"
+		// );
+		// Tuple<Integer, Integer> t = mapToStackAndOrder(4,5);
+		// System.out.println("mapToStackAndOrder(4,5)" + "stack: " + t.x + " /
+		// order: " + t.y);
+		// Tuple<Integer, Integer> t1 = mapToStackAndOrder(4,2);
+		// System.out.println("mapToStackAndOrder(4,2)" + "stack: " + t1.x + " /
+		// order: " + t1.y);
+		// Tuple<Integer, Integer> t2 = mapToStackAndOrder(4,11);
+		// System.out.println("mapToStackAndOrder(4,11)" + "stack: " + t2.x + "
+		// / order: " + t2.y);
+		// Tuple<Integer, Integer> t3 = mapToStackAndOrder(4,1);
+		// System.out.println("mapToStackAndOrder(4,1)" + "stack: " + t3.x + " /
+		// order: " + t3.y);
+		// Tuple<Integer, Integer> t4 = mapToStackAndOrder(4,6);
+		// System.out.println("mapToStackAndOrder(4,6)" + "stack: " + t4.x + " /
+		// order: " + t4.y);
+		// Tuple<Integer, Integer> t5 = mapToStackAndOrder(4,2);
+		// System.out.println("mapToStackAndOrder(4,2)" + "stack: " + t5.x + " /
+		// order: " + t5.y);
+		// Tuple<Integer, Integer> t6 = mapToStackAndOrder(4,3);
+		// System.out.println("mapToStackAndOrder(4,3)" + "stack: " + t6.x + " /
+		// order: " + t6.y);
+		//
+		// Tuple<Integer, Integer> t7 = mapToStackAndOrder(4,11);
+		// System.out.println("mapToStackAndOrder(4,11)" + "stack: " + t7.x + "
+		// / order: " + t7.y);
+		//
+		// Tuple<Integer, Integer> t8 = mapToStackAndOrder(4,10);
+		// System.out.println("mapToStackAndOrder(4,10)" + "stack: " + t8.x + "
+		// / order: " + t8.y);
+		//
+		// Tuple<Integer, Integer> t9 = mapToStackAndOrder(4,9);
+		// System.out.println("mapToStackAndOrder(4,9)" + "stack: " + t9.x + " /
+		// order: " + t9.y);
+		//
+		// Tuple<Integer, Integer> t10 = mapToStackAndOrder(4,8);
+		// System.out.println("mapToStackAndOrder(4,8)" + "stack: " + t10.x + "
+		// / order: " + t10.y);
+		//
+		// Tuple<Integer, Integer> t11 = mapToStackAndOrder(4,12);
+		// System.out.println("mapToStackAndOrder(4,12)" + "stack: " + t11.x + "
+		// / order: " + t11.y);
 	}
 
 }
