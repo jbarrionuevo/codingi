@@ -30,7 +30,7 @@ import cracking.dataStructures.helper.graph.Vertex;
  * @version $Revision$
  * @param <T>
  */
-class Edge<T> {
+public class Edge<T> {
   private Vertex<T> from;
 
   private Vertex<T> to;

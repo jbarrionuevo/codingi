@@ -35,7 +35,7 @@ import cracking.dataStructures.helper.graph.Vertex;
  * @param <T>
  */
 @SuppressWarnings("unchecked")
-class Vertex<T> {
+public class Vertex<T> {
 	private List<Edge<T>> incomingEdges;
 
 	private List<Edge<T>> outgoingEdges;

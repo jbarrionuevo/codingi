@@ -34,7 +34,7 @@ import cracking.dataStructures.helper.graph.Vertex;
  * @version $Revision$
  * @param <T>
  */
-interface DFSVisitor<T> {
+public interface DFSVisitor<T> {
   /**
    * Called by the graph traversal methods when a vertex is first visited.
    * 

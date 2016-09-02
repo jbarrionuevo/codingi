@@ -33,7 +33,7 @@ import cracking.dataStructures.helper.graph.Vertex;
  * @param <T>
  * @param <E>
  */
-interface VisitorEX<T, E extends Exception> {
+public interface VisitorEX<T, E extends Exception> {
   /**
    * Called by the graph traversal methods when a vertex is first visited.
    * 
