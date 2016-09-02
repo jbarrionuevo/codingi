@@ -15,13 +15,16 @@ public class Q4_2 {
 		boolean found = false;
 
 		Path<Vertex> path = new Path<>();
-
+		
+		
+		
 		if (found == true) {
 			paths.put("success", path);
 		} else {
 			paths.put("fail", path);
 		}
-
+		
+		
 		return found;
 	}
 
@@ -40,7 +43,8 @@ public class Q4_2 {
 		Edge<Integer> e24 = new Edge<Integer>(v2, v4, 5);
 		Edge<Integer> e23 = new Edge<Integer>(v2, v3, 30);
 		Edge<Integer> e35 = new Edge<Integer>(v3, v5, 10);
-
+		
+		digraph.setRootVertex(v1);
 	}
 
 	public static class Path<T> {
