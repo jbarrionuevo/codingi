@@ -16,14 +16,11 @@ public class Q4_2 {
 
 		Path<Vertex> path = new Path<>();
 		
-		
-		
 		if (found == true) {
 			paths.put("success", path);
 		} else {
 			paths.put("fail", path);
-		}
-		
+		}	
 		
 		return found;
 	}
